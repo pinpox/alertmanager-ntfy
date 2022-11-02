@@ -58,7 +58,7 @@ imports = [
 services.alertmanager-ntfy = {
 	enable = true;
 	httpAddress = "localhost";
-	httpPort = "localhost";
+	httpPort = "9999";
 	ntfyTopic = "https://ntfy.sh/test";
 	envFile = "/var/src/secrets/alertmanager-ntfy/envfile";
 };
