@@ -29,6 +29,13 @@ in {
       example = "https://ntfy.sh/test";
     };
 
+    ntfyPriority = mkOption {
+      type = types.str;
+      default = "";
+      description = "ntfy.sh message priority";
+      example = "urgent";
+    };
+
     envFile = mkOption {
       type = types.str;
       default = null;
@@ -64,6 +71,7 @@ in {
           "HTTP_ADDRESS='${cfg.httpAddress}'"
           "HTTP_PORT='${cfg.httpPort}'"
           "NTFY_TOPIC='${cfg.ntfyTopic}'"
+          "NTFY_PRIORITY='${cfg.ntfyPriority}'"
         ];
 
         User = "alertmanager-ntfy";

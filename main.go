@@ -39,8 +39,15 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		// Title
 		req.Header.Set("Title", fmt.Sprintf("[%s] %s", alert.Labels["instance"], alert.Labels["alertname"]))
-		// req.Header.Set("Priority", "urgent") //TODO broken on ios
+
+		// Priority (if set)
+		if priority := os.Getenv("NTFY_PRIORITY"); len(strings.TrimSpace(os.Getenv(priority))) != 0 {
+			req.Header.Set("Priority", priority)
+		}
+
+		// Tags
 		req.Header.Set("Tags", strings.Join(maps.Values(alert.Labels), ","))
 
 		req.SetBasicAuth(os.Getenv("NTFY_USER"), os.Getenv("NTFY_PASS"))

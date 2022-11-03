@@ -8,13 +8,14 @@ send them to [ntfy](https://ntfy.sh/) push notifications
 Configuration is done with environment variables.
 
 
-| Variable     | Description                  | Example                |
-|--------------|------------------------------|------------------------|
-| HTTP_ADDRESS | Adress to listen on          | `localhost`            |
-| HTTP_PORT    | Port to listen on            | `8080`                 |
-| NTFY_TOPIC   | ntfy topic to send to        | `https://ntfy.sh/test` |
-| NTFY_USER    | ntfy user for basic auth     | `myuser`               |
-| NTFY_PASS    | ntfy password for basic auth | `supersecret`          |
+| Variable      | Description                  | Example                |
+|---------------|------------------------------|------------------------|
+| HTTP_ADDRESS  | Adress to listen on          | `localhost`            |
+| HTTP_PORT     | Port to listen on            | `8080`                 |
+| NTFY_TOPIC    | ntfy topic to send to        | `https://ntfy.sh/test` |
+| NTFY_USER     | ntfy user for basic auth     | `myuser`               |
+| NTFY_PASS     | ntfy password for basic auth | `supersecret`          |
+| NTFY_PRIORITY | Priority of ntfy messages    | `high`                 |
 
 # Nix
 
@@ -60,6 +61,7 @@ services.alertmanager-ntfy = {
 	httpAddress = "localhost";
 	httpPort = "9999";
 	ntfyTopic = "https://ntfy.sh/test";
+	ntfyPriority = "high";
 	envFile = "/var/src/secrets/alertmanager-ntfy/envfile";
 };
 ```
