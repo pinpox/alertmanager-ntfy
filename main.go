@@ -33,10 +33,11 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 
 		// Skip resolved messages
 		if alert.Status == string(model.AlertResolved) {
+			log.Printf("Skipping notification for alert: %v\n", alert)
 			continue
 		}
 
-		log.Println(alert)
+		log.Printf("Processing alert: %v\n", alert)
 
 		req, err := http.NewRequest("POST", os.Getenv("NTFY_TOPIC"), strings.NewReader(alert.Annotations["description"]))
 		if err != nil {
@@ -57,6 +58,8 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 		req.Header.Set("Tags", strings.Join(maps.Values(alert.Labels), ","))
 
 		req.SetBasicAuth(os.Getenv("NTFY_USER"), os.Getenv("NTFY_PASS"))
+
+		log.Printf("Sending request: %v\n", req)
 
 		if _, err := http.DefaultClient.Do(req); err != nil {
 			log.Printf("Sending to %s failed: %s\n", req.RemoteAddr, err)
