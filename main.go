@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/prometheus/alertmanager/template"
+	"github.com/prometheus/common/model"
 	"log"
 	"net/http"
 	"os"
@@ -29,6 +30,11 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Received valid hook from %v\n", r.RemoteAddr)
 
 	for _, alert := range payload.Alerts {
+
+		// Skip resolved messages
+		if alert.Status == string(model.AlertResolved) {
+			continue
+		}
 
 		log.Println(alert)
 
