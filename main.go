@@ -3,12 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/prometheus/alertmanager/template"
-	"github.com/prometheus/common/model"
 	"log"
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/prometheus/alertmanager/template"
+	"github.com/prometheus/common/model"
 
 	"golang.org/x/exp/maps"
 )
@@ -57,16 +58,23 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 		// Tags
 		req.Header.Set("Tags", strings.Join(maps.Values(alert.Labels), ","))
 
-		req.SetBasicAuth(os.Getenv("NTFY_USER"), os.Getenv("NTFY_PASS"))
+		username, password := os.Getenv("NTFY_USER"), os.Getenv("NTFY_PASS")
+		if username != "" && password != "" {
+			req.SetBasicAuth(username, password)
+		}
 
 		log.Printf("Sending request: %v\n", req)
 
-		if _, err := http.DefaultClient.Do(req); err != nil {
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
 			log.Printf("Sending to %s failed: %s\n", req.RemoteAddr, err)
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 
+		if resp.StatusCode != 200 {
+			log.Printf("Failed to send notification: %v\n", resp)
+		}
 	}
 	w.WriteHeader(http.StatusOK)
 
