@@ -6,7 +6,7 @@ with import <nixpkgs>{};
     version = "0.1";
 
 src = ./.;
-    vendorSha256 = "sha256-k45e6RSIl3AQdOFQysIwJP9nlYsSFeaUznVIXfbYwLA=";
+    vendorHash = "sha256-k45e6RSIl3AQdOFQysIwJP9nlYsSFeaUznVIXfbYwLA=";
     subPackages = [ "." ];
 
     meta = with lib; {
