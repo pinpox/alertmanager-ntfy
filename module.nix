@@ -2,10 +2,10 @@
 with lib;
 
 # with lib;
-let cfg = config.pinpox.services.alertmanager-ntfy;
+let cfg = config.services.alertmanager-ntfy;
 in {
 
-  options.pinpox.services.alertmanager-ntfy = {
+  options.services.alertmanager-ntfy = {
     enable = mkEnableOption "alertmanager-ntfy service";
 
     httpAddress = mkOption {
