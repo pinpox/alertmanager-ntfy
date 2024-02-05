@@ -35,7 +35,7 @@
           version = "1.0.0";
 
           src = ./.;
-          vendorSha256 = "sha256-Ezt1HDxGQ7DePF90HgHKkH7v365ICFdnfcWJipLhCwQ=";
+          vendorHash = "sha256-Ezt1HDxGQ7DePF90HgHKkH7v365ICFdnfcWJipLhCwQ=";
 
           meta = with pkgs.lib; {
             description = "Relay prometheus alerts to ntfy";

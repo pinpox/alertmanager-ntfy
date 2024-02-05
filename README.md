@@ -52,7 +52,7 @@ inputs.alertmanager-ntfy.url = "github:pinpox/alertmanager-ntfy";
 
 # Import the module in your configuration.nix
 imports = [
-	self.inputs.alertmanager-ntfy.nixosModules.alertmanager-ntfy
+	self.inputs.alertmanager-ntfy.nixosModules.default
 ];
 
 # Enable and set options
