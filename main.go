@@ -59,7 +59,9 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 		req.Header.Set("Tags", strings.Join(maps.Values(alert.Labels), ","))
 
 		username, password := os.Getenv("NTFY_USER"), os.Getenv("NTFY_PASS")
-		if username != "" && password != "" {
+		// allow empty `username` (access tokens in Basic Auth leave username empty)
+		// <https://docs.ntfy.sh/publish/#access-tokens>
+		if password != "" {
 			req.SetBasicAuth(username, password)
 		}
 
