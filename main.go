@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 
@@ -42,7 +43,7 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 
 		req, err := http.NewRequest("POST", os.Getenv("NTFY_TOPIC"), strings.NewReader(alert.Annotations["description"]))
 		if err != nil {
-			log.Printf("Building request to %s failed: %s", req.RemoteAddr, err)
+			log.Printf("Building request failed: %s", err)
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
@@ -88,6 +89,11 @@ func main() {
 		if len(strings.TrimSpace(os.Getenv(v))) == 0 {
 			panic("Environment variable " + v + " not set!")
 		}
+	}
+
+	_, err := url.Parse(os.Getenv("NTFY_TOPIC"))
+	if err != nil {
+		log.Fatal("Environment variable NTFY_TOPIC is not a valid URL")
 	}
 
 	http.HandleFunc("/", WebhookHandler)
