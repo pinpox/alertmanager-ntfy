@@ -16,7 +16,7 @@
       # defined overlays injected by the nixflake
       nixpkgs.overlays = [
         (_self: _super: {
-          alertmanager-ntfy = self.packages.${pkgs.system}.alertmanager-ntfy;
+          alertmanager-ntfy = self.packages.${pkgs.stdenv.hostPlatform.system}.alertmanager-ntfy;
         })
       ];
     });
